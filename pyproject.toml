@@ -1,0 +1,20 @@
+[project]
+name = "chain-hello"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chainlit>=2.6.0",
+    "docx2txt>=0.9",
+    "faiss-cpu>=1.11.0",
+    "google-genai>=1.24.0",
+    "langchain>=0.3.26",
+    "langchain-community>=0.3.27",
+    "langchain-core>=0.3.68",
+    "langchain-google-genai>=2.1.6",
+    "langgraph>=0.5.1",
+    "langgraph-checkpoint-sqlite>=2.0.10",
+    "pypdf>=5.7.0",
+    "python-dotenv>=1.1.1",
+]
