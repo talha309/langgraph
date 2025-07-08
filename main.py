@@ -5,11 +5,13 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langgraph.graph import StateGraph
-from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.memory import MemorySaver
 from typing import TypedDict
-
+from dotenv import load_dotenv
+import os 
+load_dotenv()
 # --- Gemini API Key ---
-api_key = "AIzaSyBV1zrwveAStqJBICqvjafjeBR35gEgez0"  # 🔁 Replace with your actual key
+api_key = os.getenv("GEMINI_API_KEY")  # 🔁 Replace with your actual key
 
 # --- Load Gemini LLM and Embedding ---
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
@@ -48,11 +50,11 @@ def rag_node(state: GraphState) -> GraphState:
     }
 
 # --- Build LangGraph with persistent history ---
-memory = SqliteSaver("history.db")
 workflow = StateGraph(GraphState)
 workflow.add_node("RAG", rag_node)
 workflow.set_entry_point("RAG")
 workflow.set_finish_point("RAG")
+memory = MemorySaver
 graph = workflow.compile(checkpointer=memory)
 
 # --- Chainlit Integration ---
